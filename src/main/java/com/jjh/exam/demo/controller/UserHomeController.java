@@ -21,7 +21,7 @@ public class UserHomeController {
 
 	@RequestMapping("/usr/home/getInt")
 	@ResponseBody
-	public int getInt() {
+	public int getInt(){
 		return 10;
 	}
 
