@@ -33,9 +33,15 @@
 	
 	<update id = "modifyArticle">
 		UPDATE article
-		SET title = #{title},
-		`body` = #{body},
-		updateDate = NOW()
+		<set>
+			<if test = "title != null">
+				title = #{title},
+			</if>
+			<if test = "body != null">
+				`body` = #{body},
+			</if>
+			updateDate = NOW()
+		</set>
 		WHERE id = #{id}
 	</update>
 	
