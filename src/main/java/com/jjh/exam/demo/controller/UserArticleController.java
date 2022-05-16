@@ -1,6 +1,5 @@
 package com.jjh.exam.demo.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jjh.exam.demo.service.ArticleService;
+import com.jjh.exam.demo.util.Ut;
 import com.jjh.exam.demo.vo.Article;
+import com.jjh.exam.demo.vo.ResultData;
 
 @Controller
 public class UserArticleController {
@@ -35,13 +36,13 @@ public class UserArticleController {
 	
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public Object getArticle(int id) {
+	public ResultData getArticle(int id) {
 		Article article = articleService.getArticle(id);
 		
 		if ( article == null ) {
-			return id + "번 게시물은 존재하지 않습니다.";
+			return ResultData.from("F-1", Ut.f("%d번 게시물이 존재하지 않습니다.", id)); 
 		}
-		return article;
+		return ResultData.from("S-1", Ut.f("%d번 게시물입니다.", id), article);
 	}
 
 	@RequestMapping("/usr/article/doDelete")
