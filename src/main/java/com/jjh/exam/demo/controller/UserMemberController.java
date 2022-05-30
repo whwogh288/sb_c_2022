@@ -19,7 +19,7 @@ public class UserMemberController {
 
 	@RequestMapping("/usr/member/dojoin")
 	@ResponseBody
-	public ResultData dojoin(String loginId, String loginPw, String name, String nickname, String cellphoneNo,
+	public ResultData<Member> dojoin(String loginId, String loginPw, String name, String nickname, String cellphoneNo,
 			String email) {
 
 		if (Ut.empty(loginId)) {
@@ -44,13 +44,13 @@ public class UserMemberController {
 		// S-1
 		// 회원가입이 완료되었습니다.
 		// Data
-		ResultData joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email);
+		ResultData<Integer> joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email);
 
 		if (joinRd.isFail()) {
-			return joinRd;
+			return (ResultData) joinRd;
 		}
-		Member member = memberService.getMemberById((int) joinRd.getData1());
-
+		
+		Member member = memberService.getMemberById((int)joinRd.getData1());
 		return ResultData.newData(joinRd, member);
 	}
 }
