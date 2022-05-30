@@ -86,5 +86,5 @@ ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER `updateD
 
 # 기존 게시물의 작성자를 2번회원으로 지정
 UPDATE article
-SET memvberId = 2
+SET memberId = 2
 WHERE memberId = 0;

@@ -32,7 +32,7 @@ public class MemberService {
 		memberRepository.join(loginId, loginPw, name, nickname, cellphoneNo, email);
 		int id = memberRepository.getlastInsertId();
 		
-		return ResultData.from("S-1", "회원가입이 완료되었습니다.", id);
+		return ResultData.from("S-1", "회원가입이 완료되었습니다.", "id", id);
 		
 	}
 

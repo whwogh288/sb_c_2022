@@ -53,7 +53,7 @@ public class UserMemberController {
 		}
 		
 		Member member = memberService.getMemberById((int)joinRd.getData1());
-		return ResultData.newData(joinRd, member);
+		return ResultData.newData(joinRd, "member", member);
 	}
 	
 	@RequestMapping("/usr/member/dologout")
