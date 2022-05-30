@@ -78,7 +78,7 @@ public class UserMemberController {
 	public ResultData doLogin(HttpSession httpSession, String loginId, String loginPw) {
 		boolean isLogined = false;
 		
-		if (httpSession.getAttribute("loginedMemberId") == null) {
+		if (httpSession.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
 		}
 		if (isLogined) {
