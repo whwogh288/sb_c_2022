@@ -58,6 +58,15 @@ public class UserArticleController {
 		return "usr/article/list";
 	}
 	
+	@RequestMapping("/usr/article/detail")
+	public String showDetail(Model model, int id) {
+		Article article = articleService.getArticle(id);
+		
+		model.addAttribute("article", article);
+		
+		return "usr/article/detail";
+	}
+	
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
 	public ResultData<Article> getArticle(int id) {
