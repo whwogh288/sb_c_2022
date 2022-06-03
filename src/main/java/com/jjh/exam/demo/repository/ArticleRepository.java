@@ -22,6 +22,17 @@ public interface ArticleRepository {
 	
 	public void modifyArticle(@Param("id") int id, @Param("title") String title, @Param("body") String body);
 	
+	
+	@Select("""
+			SELECT A.*,
+			M.nickname AS extra__writerName
+			FROM article AS A
+			LEFT JOIN member AS M
+			ON A.memberId = m.id
+			ORDER BY
+			id DESC
+			""")
+	
 	public List<Article> getArticles();
 
 	public int getlastInsertId();
