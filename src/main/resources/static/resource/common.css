@@ -18,7 +18,7 @@
   src: url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff') format('woff');
 }
 html > body {
- font-family: 'LotteMartDream', sans-serif;
+  font-family: 'LotteMartDream', sans-serif;
 }
 
 /* 라이브러리 */
@@ -30,4 +30,10 @@ html > body {
 .table-box-type-1 > table td {
   border:1px solid black;
   padding:10px;
+}
+.btn-text-link {
+  color:skyblue;
+}
+.btn-text-link:hover {
+  text-decoration: underline;
 }
