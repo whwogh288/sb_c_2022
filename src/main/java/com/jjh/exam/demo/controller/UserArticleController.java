@@ -138,8 +138,14 @@ public class UserArticleController {
 	    articleService.modifyArticle(id, title, body);
 	    
 	    return Ut.jsReplace(Ut.f("%d번 글이 수정되었습니다.", id), Ut.f("../article/detail?id=%d", id));
+		}
+	
+	@RequestMapping("/usr/article/write")
+	public String showWrite(HttpServletRequest req, Model model) {
+		Rq rq = (Rq)req.getAttribute("rq");
 		
-		
+		return "usr/article/write";
 	}
+	
 	// 액션 메서드 끝
 }
