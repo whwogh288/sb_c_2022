@@ -74,4 +74,12 @@ public class Rq {
 		return "common/js";
 	}
 
+	public String jshistoryBack(String msg) {
+		return Ut.jshistoryBack(msg);
+	}
+	
+	public String jsReplace(String msg, String uri) {
+		return Ut.jsReplace(msg, uri);
+	}
+
 }
