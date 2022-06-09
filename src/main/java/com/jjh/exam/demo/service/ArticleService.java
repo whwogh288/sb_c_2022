@@ -54,7 +54,7 @@ public class ArticleService {
 	}
 
 	private void updateForPrintData(int actorId, Article article) {
-		if ( article == null ) {
+		if (article == null) {
 			return;
 		}
 		
@@ -83,7 +83,7 @@ public class ArticleService {
 		if(article == null) {
 			return ResultData.from("f-1", "게시물이 존재하지 않습니다.");
 		}
-		if(article .getMemberId() != actorId) {
+		if(article.getMemberId() != actorId) {
 			return ResultData.from("F-2", "권한이 없습니다.");
 		}
 		return ResultData.from("S-1", "게시물 수정이 가능합니다.");
@@ -92,7 +92,7 @@ public class ArticleService {
 		if(article == null) {
 			return ResultData.from("f-1", "게시물이 존재하지 않습니다.");
 		}
-		if(article .getMemberId() != actorId) {
+		if(article.getMemberId() != actorId) {
 			return ResultData.from("F-2", "권한이 없습니다.");
 		}
 		return ResultData.from("S-1", "게시물 삭제가 가능합니다.");

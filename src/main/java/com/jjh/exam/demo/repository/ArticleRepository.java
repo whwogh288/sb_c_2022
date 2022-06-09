@@ -14,7 +14,7 @@ import com.jjh.exam.demo.vo.Article;
 @Mapper
 public interface ArticleRepository {
 	
-	public void writeArticle(@Param("memberId") int memberId, @Param("boardId")int boardId, @Param("title") String title, @Param("body") String body);
+	public void writeArticle(@Param("memberId") int memberId, @Param("boardId") int boardId, @Param("title") String title, @Param("body") String body);
 	
 	@Select("""
 		SELECT A.*,
@@ -43,7 +43,7 @@ public interface ArticleRepository {
 				AND A.boardId = #{boardId}
 			</if>
 			ORDER BY A.id DESC
-			<if test="limitStart != -1">
+			<if test="limitTake != -1">
 				LIMIT #{limitStart}, #{limitTake}
 			</if>
 			</script>
