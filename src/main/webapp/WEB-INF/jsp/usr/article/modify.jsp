@@ -40,7 +40,7 @@
           <tr>
             <th>추천</th>
             <td>
-              <span class="badge bdage-primary">${article.extra__goodReactionPoint}</span>
+              <span class="badge bdage-primary">${article.goodReactionPoint}</span>
             </td>
           </tr>
           <tr>
