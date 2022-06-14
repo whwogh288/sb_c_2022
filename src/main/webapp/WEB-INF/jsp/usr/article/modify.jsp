@@ -21,15 +21,11 @@
           </tr>
           <tr>
             <th>작성날짜</th>
-            <td>
-              ${article.forPrintType2RegDate}
-            </td>
+            <td>${article.forPrintType2RegDate}</td>
           </tr>
           <tr>
             <th>수정날짜</th>
-            <td>
-              ${article.forPrintType2UpdateDate}
-            </td>
+            <td>${article.forPrintType2UpdateDate}</td>
           </tr>
           <tr>
             <th>작성자</th>
@@ -43,7 +39,9 @@
           </tr>
           <tr>
             <th>추천</th>
+            <td>
               <span class="badge bdage-primary">${article.extra__goodReactionPoint}</span>
+            </td>
           </tr>
           <tr>
             <th>제목</th>
@@ -71,11 +69,11 @@
     <div class="btns">
       <a class="btn btn-link" href="../article/detail?id=${article.id}">게시물 상세페이지</a>
       <c:if test="${article.extra__actorCanModify}">
-      <a class="btn btn-link" href="../article/modify?id=${article.id}">게시물 수정</a>
+        <a class="btn btn-link" href="../article/modify?id=${article.id}">게시물 수정</a>
       </c:if>
       <c:if test="${article.extra__actorCanDelete}">
         <a class="btn btn-link" onclick="if( confirm('정말 삭제하시겠습니까?') == false) return false;" href="../article/doDelete?id=${article.id}">게시물 삭제</a>
-      </c:if>    
+      </c:if>
     </div>
   </div>
 </section>
