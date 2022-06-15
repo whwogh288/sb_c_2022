@@ -23,6 +23,7 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(beforeActionInterceptor)
         		.addPathPatterns("/**")
+        		.excludePathPatterns("/favicon.ico")
         		.excludePathPatterns("/resource/**")
         		.excludePathPatterns("/error");
 	
@@ -31,6 +32,8 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 				.addPathPatterns("/usr/article/doWrite")
 				.addPathPatterns("/usr/article/modify")
 				.addPathPatterns("/usr/article/doModify")
+				.addPathPatterns("/usr/reactionPoint/doGoodReaction")
+				.addPathPatterns("/usr/reactionPoint/doBadReaction")
 				.addPathPatterns("/usr/article/doDelete");
 	}
 }
