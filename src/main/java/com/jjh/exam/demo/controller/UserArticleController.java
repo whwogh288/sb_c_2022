@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jjh.exam.demo.service.ArticleService;
 import com.jjh.exam.demo.service.BoardService;
+import com.jjh.exam.demo.service.ReactionPointService;
 import com.jjh.exam.demo.util.Ut;
 import com.jjh.exam.demo.vo.Article;
 import com.jjh.exam.demo.vo.Board;
@@ -20,11 +21,13 @@ import com.jjh.exam.demo.vo.Rq;
 public class UserArticleController {
 	private ArticleService articleService;
 	private BoardService boardService;
+	private ReactionPointService reactionPointService;
 	private Rq rq;
 	
-	public UserArticleController(ArticleService articleService, BoardService boardService, Rq rq) {
+	public UserArticleController(ArticleService articleService, BoardService boardService, ReactionPointService reactionPointService, Rq rq) {
 		this.articleService = articleService;
 		this.boardService = boardService;
+		this.reactionPointService = reactionPointService;
 		this.rq = rq;
 	}
 	
@@ -80,7 +83,7 @@ public class UserArticleController {
 		
 		model.addAttribute("article", article);
 		
-		boolean actorCanMakeReactionPoint = articleService.actorCanMakeReactionPoint(rq.getLoginedMemberId(), id);
+		boolean actorCanMakeReactionPoint = reactionPointService.actorCanMakeReactionPoint(rq.getLoginedMemberId(), "article", id);
 
 		model.addAttribute("actorCanMakeReactionPoint", actorCanMakeReactionPoint);
 		
