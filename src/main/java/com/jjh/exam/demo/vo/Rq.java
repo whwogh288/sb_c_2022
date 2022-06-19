@@ -19,7 +19,7 @@ import lombok.Getter;
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Rq {
 	@Getter
-	private boolean logined;
+	private boolean isLogined;
 	@Getter
 	private int loginedMemberId;
 	@Getter
@@ -44,7 +44,7 @@ public class Rq {
 			loginedMember = memberService.getMemberById(loginedMemberId);
 		}
 		
-		this.logined = isLogined;
+		this.isLogined = isLogined;
 		this.loginedMemberId = loginedMemberId;
 		this.loginedMember = loginedMember;
 		
@@ -62,6 +62,10 @@ public class Rq {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean isNotLogined() {
+		return !isLogined;
 	}
 	
 	public void println(String str) {
