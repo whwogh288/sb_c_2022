@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jjh.exam.demo.service.ReplyService;
 import com.jjh.exam.demo.util.Ut;
+import com.jjh.exam.demo.vo.Reply;
 import com.jjh.exam.demo.vo.ResultData;
 import com.jjh.exam.demo.vo.Rq;
 
@@ -46,6 +47,35 @@ public class UserReplyController {
 		}
 
 		return rq.jsReplace(writeReplyRd.getMsg(), replaceUri);
+	}
+	
+	@RequestMapping("/usr/reply/doDelete")
+	@ResponseBody
+	public String doDelete(int id, String replaceUri) {
+		if (Ut.empty(id)) {
+			return rq.jshistoryBack("id(을)를 입력해주세요.");
+		}
+
+		Reply reply = replyService.getForPrintReply(rq.getLoginedMember(), id);
+		
+		if (reply == null) {
+			return rq.jshistoryBack(Ut.f("%d번 댓글은 존재하지 않습니다.", id));
+		}
+		
+		if (reply.isExtra__actorCanDelete() == false ) {
+			return rq.jshistoryBack(Ut.f("%d번 댓글을 삭제할 권한이 없습니다.", id));
+		}
+		
+		ResultData deleteReplyRd = replyService.deleteReply(id);
+		if (Ut.empty(replaceUri)) {
+			switch (reply.getRelTypeCode()) {
+			case "article":
+				replaceUri = Ut.f("../article/detail?id=%d", reply.getRelId());
+				break;
+			}
+		}
+
+		return rq.jsReplace(deleteReplyRd.getMsg(), replaceUri);
 	}
 
 }
