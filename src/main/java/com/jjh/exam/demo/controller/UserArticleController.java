@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jjh.exam.demo.service.ArticleService;
 import com.jjh.exam.demo.service.BoardService;
 import com.jjh.exam.demo.service.ReactionPointService;
+import com.jjh.exam.demo.service.ReplyService;
 import com.jjh.exam.demo.util.Ut;
 import com.jjh.exam.demo.vo.Article;
 import com.jjh.exam.demo.vo.Board;
+import com.jjh.exam.demo.vo.Reply;
 import com.jjh.exam.demo.vo.ResultData;
 import com.jjh.exam.demo.vo.Rq;
 
@@ -22,11 +24,13 @@ public class UserArticleController {
 	private ArticleService articleService;
 	private BoardService boardService;
 	private ReactionPointService reactionPointService;
+	private ReplyService replyService;
 	private Rq rq;
 	
-	public UserArticleController(ArticleService articleService, BoardService boardService, ReactionPointService reactionPointService, Rq rq) {
+	public UserArticleController(ArticleService articleService, BoardService boardService, ReactionPointService reactionPointService, ReplyService replyService, Rq rq) {
 		this.articleService = articleService;
 		this.boardService = boardService;
+		this.replyService = replyService;
 		this.reactionPointService = reactionPointService;
 		this.rq = rq;
 	}
@@ -43,7 +47,7 @@ public class UserArticleController {
 		}
 		
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), boardId, title, body);
-		int id = (int) writeArticleRd.getData1();
+		int id = writeArticleRd.getData1();
 		
 		if (Ut.empty(replaceUri)) {
 			replaceUri = Ut.f("../article/detail?id=%d", id);
@@ -82,6 +86,11 @@ public class UserArticleController {
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 		
 		model.addAttribute("article", article);
+		
+		List<Reply> replies = replyService.getForPrintReplies(rq.getLoginedMember(), "article", id);
+		int repliesCount = replies.size();
+		
+		model.addAttribute("repliesCount", repliesCount);
 		
 		ResultData actorCanMakeReactionPointRd = reactionPointService.actorCanMakeReactionPoint(rq.getLoginedMemberId(), "article", id);
 

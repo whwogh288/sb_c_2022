@@ -196,4 +196,10 @@
   </div>
 </section>
 
+<section class="mt-5">
+  <div class="container mx-auto px-3">
+    <h1>댓글 리스트(${repliesCount})</h1>
+  </div>
+</section>
+
 <%@ include file="../common/foot.jspf"%>
