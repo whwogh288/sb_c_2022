@@ -118,4 +118,9 @@ public class UserMemberController {
 		
 		return Ut.jsReplace("", replaceUri);
 	}
+	
+	@RequestMapping("/usr/member/modify")
+	public String showModify() {
+		return "usr/member/modify";
+	}
 }
