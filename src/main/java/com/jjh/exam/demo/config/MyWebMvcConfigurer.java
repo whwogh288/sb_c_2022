@@ -2,12 +2,12 @@ package com.jjh.exam.demo.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.jjh.exam.demo.interceptor.BeforeActionInterceptor;
 import com.jjh.exam.demo.interceptor.NeedLoginInterceptor;
+import com.jjh.exam.demo.interceptor.NeedLogoutInterceptor;
 
 @Configuration
 public class MyWebMvcConfigurer implements WebMvcConfigurer {
@@ -16,8 +16,12 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 	BeforeActionInterceptor beforeActionInterceptor;
 	
 	// needLoginInterceptor 인터셉터 불러오기
-		@Autowired
-		NeedLoginInterceptor needLoginInterceptor;
+	@Autowired
+	NeedLoginInterceptor needLoginInterceptor;
+	
+	// needLogoutInterceptor 인터셉터 불러오기
+	@Autowired
+	NeedLogoutInterceptor needLogoutInterceptor;
 		
 	// 이 함수는 인터셉터를 적용하는 역활을 합니다.
 	@Override
@@ -47,6 +51,16 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 				.addPathPatterns("/usr/reactionPoint/doBadReaction")
 				.addPathPatterns("/usr/reactionPoint/doCancelGoodReaction")
 				.addPathPatterns("/usr/reactionPoint/doCancelBadReaction");
+		
+		registry.addInterceptor(needLogoutInterceptor)
+				.addPathPatterns("/usr/member/join")
+				.addPathPatterns("/usr/member/doJoin")
+				.addPathPatterns("/usr/member/login")
+				.addPathPatterns("/usr/member/doLogin")
+				.addPathPatterns("/usr/member/findLoginId")
+				.addPathPatterns("/usr/member/doFindLoginId")
+				.addPathPatterns("/usr/member/findLoginPw")
+				.addPathPatterns("/usr/member/doFindLoginPw");
 	}
 
 }
