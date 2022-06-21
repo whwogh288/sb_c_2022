@@ -62,7 +62,7 @@ public class UserMemberController {
 	public String doLogout() {
 		rq.logout();
 		
-		return Ut.jsReplace("로그아웃 되었습니다.", "/");
+		return rq.jsReplace("로그아웃 되었습니다.", "/");
 	}
 	
 	@RequestMapping("/usr/member/login")
@@ -74,25 +74,25 @@ public class UserMemberController {
 	@ResponseBody
 	public String doLogin(String loginId, String loginPw) {
 		if (Ut.empty(loginId)) {
-			return Ut.jshistoryBack("loginId(을)를 입력해주세요.");
+			return rq.jshistoryBack("loginId(을)를 입력해주세요.");
 		}
 		if (Ut.empty(loginPw)) {
-			return Ut.jshistoryBack("loginPw(을)를 입력해주세요.");
+			return rq.jshistoryBack("loginPw(을)를 입력해주세요.");
 		}
 		
 		Member member = memberService.getMemberByLoginId(loginId);
 
 		if (member == null) {
-			return Ut.jshistoryBack("존재하지 않는 로그인아이디 입니다.");
+			return rq.jshistoryBack("존재하지 않는 로그인아이디 입니다.");
 		}
 		
 		if (member.getLoginPw().equals(loginPw) == false) {
-			return Ut.jshistoryBack("비밀번호가 일치하지 않습니다.");
+			return rq.jshistoryBack("비밀번호가 일치하지 않습니다.");
 		}
 		
 		rq.login(member);
 		
-		return Ut.jsReplace(Ut.f("%s님 환영합니다.", member.getNickname()), "/");
+		return rq.jsReplace(Ut.f("%s님 환영합니다.", member.getNickname()), "/");
 	}
 	
 	@RequestMapping("/usr/member/myPage")
@@ -109,18 +109,45 @@ public class UserMemberController {
 	@ResponseBody
 	public String doCheckPassword(String loginPw, String replaceUri) {
 		if (Ut.empty(loginPw)) {
-			return Ut.jshistoryBack("loginPw(을)를 입력해주세요.");
+			return rq.jshistoryBack("loginPw(을)를 입력해주세요.");
 		}
 		
 		if (rq.getLoginedMember().getLoginPw().equals(loginPw) == false) {
-			return Ut.jshistoryBack("비밀번호가 일치하지 않습니다.");
+			return rq.jshistoryBack("비밀번호가 일치하지 않습니다.");
 		}
 		
-		return Ut.jsReplace("", replaceUri);
+		return rq.jsReplace("", replaceUri);
 	}
 	
 	@RequestMapping("/usr/member/modify")
 	public String showModify() {
 		return "usr/member/modify";
+	}
+	
+	@RequestMapping("/usr/member/doModify")
+	@ResponseBody
+	public String doModify(String loginPw, String name, String nickname, String email, String cellphoneNo) {
+		if (Ut.empty(loginPw)) {
+			loginPw = null;
+		}
+		
+		if (Ut.empty(name)) {
+			return rq.jshistoryBack("name(을)를 입력해주세요.");
+		}
+		
+		if (Ut.empty(nickname)) {
+			return rq.jshistoryBack("nickname(을)를 입력해주세요.");
+		}
+		
+		if (Ut.empty(email)) {
+			return rq.jshistoryBack("email(을)를 입력해주세요.");
+		}
+		
+		if (Ut.empty(cellphoneNo)) {
+			return rq.jshistoryBack("cellphoneNo(을)를 입력해주세요.");
+		}
+		
+		ResultData modifyRd = memberService.modify(rq.getLoginedMemberId(), loginPw, name, nickname, email, cellphoneNo);
+			return rq.jsReplace(modifyRd.getMsg(), "/");
 	}
 }
