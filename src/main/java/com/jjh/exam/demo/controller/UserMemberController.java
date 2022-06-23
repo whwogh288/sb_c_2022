@@ -126,13 +126,33 @@ public class UserMemberController {
 	}
 	
 	@RequestMapping("/usr/member/modify")
-	public String showModify() {
+	public String showModify(String memberModifyAuthKey) {
+		if ( Ut.empty(memberModifyAuthKey) ) {
+			return rq.historyBackJsOnView("memberModifyAuthKey(이)가 필요합니다.");
+		}
+
+		ResultData checkMemberModifyAuthKeyRd = memberService.checkMemberModifyAuthKey(rq.getLoginedMemberId(), memberModifyAuthKey);
+
+		if ( checkMemberModifyAuthKeyRd.isFail() ) {
+			return rq.historyBackJsOnView(checkMemberModifyAuthKeyRd.getMsg());
+		}
+		
 		return "usr/member/modify";
 	}
 	
 	@RequestMapping("/usr/member/doModify")
 	@ResponseBody
-	public String doModify(String loginPw, String name, String nickname, String email, String cellphoneNo) {
+	public String doModify(String memberModifyAuthKey, String loginPw, String name, String nickname, String email, String cellphoneNo) {
+		if ( Ut.empty(memberModifyAuthKey) ) {
+			return rq.jshistoryBack("memberModifyAuthKey(이)가 필요합니다.");
+		}
+
+		ResultData checkMemberModifyAuthKeyRd = memberService.checkMemberModifyAuthKey(rq.getLoginedMemberId(), memberModifyAuthKey);
+
+		if ( checkMemberModifyAuthKeyRd.isFail() ) {
+			return rq.jshistoryBack(checkMemberModifyAuthKeyRd.getMsg());
+		}
+		
 		if (Ut.empty(loginPw)) {
 			loginPw = null;
 		}
