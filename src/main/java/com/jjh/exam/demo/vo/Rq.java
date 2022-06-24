@@ -25,47 +25,46 @@ public class Rq {
 	private int loginedMemberId;
 	@Getter
 	private Member loginedMember;
-	
+
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
 	private HttpSession session;
 	private Map<String, String> paramMap;
-	
+
 	public Rq(HttpServletRequest req, HttpServletResponse resp, MemberService memberService) {
 		this.req = req;
 		this.resp = resp;
-		
+
 		paramMap = Ut.getParamMap(req);
-		
+
 		this.session = req.getSession();
 		boolean isLogined = false;
 		int loginedMemberId = 0;
 		Member loginedMember = null;
-		
+
 		if (session.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
-			loginedMemberId = (int)session.getAttribute("loginedMemberId");
+			loginedMemberId = (int) session.getAttribute("loginedMemberId");
 			loginedMember = memberService.getMemberById(loginedMemberId);
 		}
-		
+
 		this.isLogined = isLogined;
 		this.loginedMemberId = loginedMemberId;
 		this.loginedMember = loginedMember;
-		
+
 		this.req.setAttribute("rq", this);
 	}
-	
+
 	public void printReplaceJs(String msg, String url) {
 		resp.setContentType("text/html; charset=UTF-8");
 		print(Ut.jsReplace(msg, url));
 	}
 
-
 	public void printHistoryBackJs(String msg) {
 		resp.setContentType("text/html; charset=UTF-8");
 		print(Ut.jshistoryBack(msg));
 	}
-	
+
 	public void print(String str) {
 		try {
 			resp.getWriter().append(str);
@@ -73,11 +72,11 @@ public class Rq {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public boolean isNotLogined() {
 		return !isLogined;
 	}
-	
+
 	public void println(String str) {
 		print(str + "\n");
 	}
@@ -99,39 +98,45 @@ public class Rq {
 	public String jshistoryBack(String msg) {
 		return Ut.jshistoryBack(msg);
 	}
-	
+
 	public String jsReplace(String msg, String uri) {
 		return Ut.jsReplace(msg, uri);
 	}
-	
+
 	public String getCurrentUri() {
 		String currentUri = req.getRequestURI();
-        String queryString = req.getQueryString();
+		String queryString = req.getQueryString();
 
-        if (queryString != null && queryString.length() > 0) {
-            currentUri += "?" + queryString;
-        }
+		if (queryString != null && queryString.length() > 0) {
+			currentUri += "?" + queryString;
+		}
 
-        return currentUri;
+		return currentUri;
 	}
 
 	public String getEncodedCurrentUri() {
 		return Ut.getUriEncoded(getCurrentUri());
 	}
+
 	// 이 메서드는 Rq 객체가 자연스럽게 생성되도록 유도하는 역할을 한다.
-	//지우면 안되고,
-	//편의를 위해 BeforeActionInterceptor 에서 꼭 호출해야 됨
+	// 지우면 안되고,
+	// 편의를 위해 BeforeActionInterceptor 에서 꼭 호출해야 됨
 	public void initOnBeforeActionInterceptor() {
-		
+
 	}
-	
+
 	public String getLoginUri() {
 		return "../member/login?afterLoginUri=" + getAfterLoginUri();
 	}
 
+	public String getLogoutUri() {
+		return "../member/doLogout?afterLogoutUri=" + getAfterLogoutUri();
+	}
+
 	public String getAfterLoginUri() {
 		String requestUri = req.getRequestURI();
-		
+
+		// 로그인 후 다시 돌아가면 안되는 페이지
 		switch (requestUri) {
 		case "/usr/member/login":
 		case "/usr/member/join":
@@ -139,7 +144,22 @@ public class Rq {
 		case "/usr/member/findLoginPw":
 			return Ut.getUriEncoded(Ut.getStrAttr(paramMap, "afterLoginUri", ""));
 		}
-		
+
 		return getEncodedCurrentUri();
+	}
+
+	public String getAfterLogoutUri() {
+		String requestUri = req.getRequestURI();
+
+		// 필요하다면 활성화
+		/*
+		switch (requestUri) {
+		case "/usr/article/write":
+			return Ut.getUriEncoded(Ut.getStrAttr(paramMap, "afterLoginUri", ""));
+		}
+		*/
+
+		return getEncodedCurrentUri();
+
 	}
 }
