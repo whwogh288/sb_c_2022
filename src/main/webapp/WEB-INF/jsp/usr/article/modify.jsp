@@ -3,30 +3,38 @@
 
 <c:set var="pageTitle" value="게시물 수정" />
 <%@ include file="../common/head.jspf"%>
+<%@ include file="../../common/toastUiEditorLib.jspf"%>
+
 
 <script>
-  let ArticleModify__submitDone = false;
-  function ArticleModify__submit(form) {
-  if ( ArticleModify__submitDone ) {
-    return;
-  }
-  form.body.value = form.body.value.trim();
-  
-  if ( form.body.value.length == 0) {
-    alert('내용을 입력해주세요.')
-    form.body.focus();
-    
-    return;
-  }
-  ArticleModify__submitDone = true;
-  form.submit();
-  }
+	let ArticleModify__submitDone = false;
+	function ArticleModify__submit(form) {
+		if (ArticleModify__submitDone) {
+			return;
+		}
+
+		const editor = $(form).find('.toast-ui-editor').data(
+				'data-toast-editor');
+		const markdown = editor.getMarkdown().trim();
+		if (markdown.length == 0) {
+			alert('내용을 입력해주세요.');
+			editor.focus();
+			return;
+		}
+
+		form.body.value = markdown;
+
+		ArticleModify__submitDone = true;
+		form.submit();
+	}
 </script>
 
 <section class="mt-5">
   <div class="container mx-auto px-3">
-    <form class="table-box-type-1" method="POST" action="../article/doModify" onsubmit="ArticleModify__submitDone(this); return false;">
+    <form class="table-box-type-1" method="POST" action="../article/doModify"
+      onsubmit="ArticleModify__submit(this); return false;">
       <input type="hidden" name="id" value="${article.id}" />
+      <input type="hidden" name="body" />
       <table>
         <colgroup>
           <col width="200" />
@@ -65,13 +73,18 @@
           <tr>
             <th>제목</th>
             <td>
-              <input class="w-96 input input-bordered" name="title" type="text" placeholder="제목" value="${article.title}" />
+              <input class="w-96 input input-bordered" name="title" type="text" placeholder="제목"
+                value="${article.title}" />
             </td>
           </tr>
           <tr>
             <th>내용</th>
             <td>
-              <textarea class="w-full textarea textarea-bordered" name="body" rows="10" placeholder="내용">${article.body}</textarea>
+              <div class="toast-ui-editor">
+                <script type="text/x-template">
+${article.body}
+        </script>
+              </div>
             </td>
           </tr>
           <tr>
@@ -91,7 +104,8 @@
         <a class="btn btn-link" href="../article/modify?id=${article.id}">게시물 수정</a>
       </c:if>
       <c:if test="${article.extra__actorCanDelete}">
-        <a class="btn btn-link" onclick="if( confirm('정말 삭제하시겠습니까?') == false) return false;" href="../article/doDelete?id=${article.id}">게시물 삭제</a>
+        <a class="btn btn-link" onclick="if( confirm('정말 삭제하시겠습니까?') == false) return false;"
+          href="../article/doDelete?id=${article.id}">게시물 삭제</a>
       </c:if>
     </div>
   </div>
