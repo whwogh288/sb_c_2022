@@ -9,9 +9,37 @@
 <!-- 제이쿼리 불러오기 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+<script>
+function Theme__toggle() {
+  const theme = localStorage.getItem("theme") ?? "light";
+
+  if ( theme == 'light' ) {
+    localStorage.setItem("theme", "dark");
+    //Theme__applyTo('dark');
+  }
+  else {
+    localStorage.setItem("theme", "light");
+    //Theme__applyTo('light');
+  }
+
+  location.reload();
+}
+
+function Theme__applyTo(themeName) {
+  $('html').attr('data-theme', themeName);
+}
+
+function Theme__init() {
+  const theme = localStorage.getItem("theme") ?? "light";
+  Theme__applyTo(theme);
+}
+
+Theme__init();
+</script>
+
 <!-- 테일윈드 불러오기 -->
 <!-- 노말라이즈, 라이브러리까지 한방에 해결 -->
-<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
 
 <!-- 데이지 UI -->
 <link href="https://cdn.jsdelivr.net/npm/daisyui@2.15.2/dist/full.css" rel="stylesheet" type="text/css" />
