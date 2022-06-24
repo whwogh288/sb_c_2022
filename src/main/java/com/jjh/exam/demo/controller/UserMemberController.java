@@ -2,6 +2,7 @@ package com.jjh.exam.demo.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jjh.exam.demo.service.MemberService;
@@ -72,7 +73,7 @@ public class UserMemberController {
 	
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(String loginId, String loginPw) {
+	public String doLogin(String loginId, String loginPw, @RequestParam(defaultValue = "/") String afterLoginUri) {
 		if (Ut.empty(loginId)) {
 			return rq.jshistoryBack("loginId(을)를 입력해주세요.");
 		}
@@ -92,7 +93,7 @@ public class UserMemberController {
 		
 		rq.login(member);
 		
-		return rq.jsReplace(Ut.f("%s님 환영합니다.", member.getNickname()), "/");
+		return rq.jsReplace(Ut.f("%s님 환영합니다.", member.getNickname()), afterLoginUri);
 	}
 	
 	@RequestMapping("/usr/member/myPage")
