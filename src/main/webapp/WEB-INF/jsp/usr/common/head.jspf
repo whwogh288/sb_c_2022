@@ -89,6 +89,11 @@ Theme__init();
           </a>
         </li>
         </c:if>
+        <li>
+          <a class="h-full flex px-3 items-center hover:underline" href="${rq.joinUri}">
+            <span>회원가입</span>
+          </a>
+        </li>
         <c:if test="${rq.logined}">
         <li>
           <a class="h-full flex px-3 items-center hover:underline" href="/usr/member/myPage">
