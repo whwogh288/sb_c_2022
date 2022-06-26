@@ -82,7 +82,7 @@
             <a class="btn btn-sm btn-disabled">...</a>
           </c:if>
         </c:if>
-        <c:forEach begin="${startPage = 1}" end="${endPage = 20}" var="i">
+        <c:forEach begin="${startPage = 1}" end="${endPage = 10}" var="i">
           <a class="btn btn-sm ${page == i ? 'btn-active' : ''}" href="${pageBaseUri}&page=${i}">${i}</a> 
         </c:forEach>
         <c:if test="${endPage < pagesCount}">

@@ -4,113 +4,148 @@
 <c:set var="pageTitle" value="회원가입" />
 <%@ include file="../common/head.jspf"%>
 
+<script type="text/javascript">
+  let submitJoinFormDone = false;
+  let validLoginId = "";
+  function submitJoinForm(form) {
+  	if (submitJoinFormDone) {
+	  alert('처리중입니다.');
+
+	  return;
+	}
+
+	form.loginId.value = form.loginId.value.trim();
+
+	if (form.loginId.value.length == 0) {
+		alert('로그인아이디를 입력해주세요.');
+		form.loginId.focus();
+
+		return;
+	}
+
+	if (form.loginId.value != validLoginId) {
+	      alert('해당 로그인아이디는 올바르지 않습니다. 다른 로그인아이디를 입력해주세요.');
+	      form.loginId.focus();
+	      
+	      return;
+	    }
+
+	form.loginPw.value = form.loginPw.value.trim();
+
+	if (form.loginPw.value.length == 0) {
+		alert('로그인비밀번호를 입력해주세요.');
+		form.loginPw.focus();
+
+		return;
+	}
+
+	form.loginPwConfirm.value = form.loginPwConfirm.value.trim();
+
+	if (form.loginPwConfirm.value.length == 0) {
+		alert('로그인비밀번호 확인을 입력해주세요.');
+		form.loginPwConfirm.focus();
+
+		return;
+	}
+
+	if (form.loginPw.value != form.loginPwConfirm.value) {
+		alert('로그인비밀번호 확인이 일치하지 않습니다.');
+		form.loginPwConfirm.focus();
+
+		return;
+	}
+
+	form.name.value = form.name.value.trim();
+
+	if (form.name.value.length == 0) {
+		alert('이름을 입력해주세요.');
+		form.name.focus();
+
+		return;
+	}
+
+	form.nickname.value = form.nickname.value.trim();
+
+	if (form.nickname.value.length == 0) {
+		alert('닉네임을 입력해주세요.');
+		form.nickname.focus();
+
+		return;
+	}
+
+	form.email.value = form.email.value.trim();
+
+	if (form.email.value.length == 0) {
+		alert('이메일을 입력해주세요.');
+		form.email.focus();
+
+		return;
+	}
+
+	form.cellphoneNo.value = form.cellphoneNo.value.trim();
+
+	if (form.cellphoneNo.value.length == 0) {
+		alert('휴대전화번호를 입력해주세요.');
+		form.cellphoneNo.focus();
+
+		return;
+	}
+
+    submitJoinFormDone = true;
+	form.submit();
+	}
+
+  function checkLoginIdDup(el) {
+	$('.loginId-message').empty();
+	const form = $(el).closest('form').get(0);
+	
+	if (form.loginId.value.length == 0) {
+	  validLoginId = '';
+	  return;
+	}
+	    
+	$.get('../member/getLoginIdDup', {
+	  isAjax : 'Y',
+	  loginId : form.loginId.value
+	}, function(data) {
+	  $('.loginId-message').html('<div class="mt-2">' + data.msg + '</div>');
+	  if (data.success) {
+	    validLoginId = data.data1;
+	  } else {
+	    validLoginId = '';
+	  }
+	}, 'json');
+  }
+</script>
+
 <section class="mt-5">
   <div class="container mx-auto px-3">
-    <script type="text/javascript">
-      let submitJoinFormDone = false;
-      function submitJoinForm(form) {
-    	if ( submitJoinFormDone ) {
-    	  alret('처리중입니다.');
-    	  return;
-    	}
-    	
-    	form.loginId.value = form.loginId.value.trim();
-    	
-    	if(form.loginId.value.length == 0) {
-    	  alret('로그인 아이디를 입력해주세요.');
-    	  form.loginId.focus();
-    	  
-    	  return;
-    	}
-    	
-		form.loginPw.value = form.loginPw.value.trim();
-    	
-    	if(form.loginPw.value.length == 0) {
-    	  alret('로그인 비밀번호를 입력해주세요.');
-    	  form.loginPw.focus();
-    	  
-    	  return;
-    	}
-    	
-		form.loginPwConfirm.value = form.loginPwConfirm.value.trim();
-    	
-    	if(form.loginPwConfirm.value.length == 0) {
-    	  alret('로그인 비밀번호 확인을 입력해주세요.');
-    	  form.loginPwConfirm.focus();
-    	  
-    	  return;
-    	}
-    	
-    	if ( form.loginPw.value != form.loginPwConfirm.value ) {
-    		alret('로그인 비밀번호 확인이 일치하지 않습니다.');
-    		form.loginPwConfirm.focus();
-      	  
-      	  return;
-    	}
-    	
-		form.name.value = form.name.value.trim();
-    	
-    	if(form.name.value.length == 0) {
-    	  alret('성함을 입력해주세요.');
-    	  form.name.focus();
-    	  
-    	  return;
-    	}
-    	
-		form.nickname.value = form.nickname.value.trim();
-    	
-    	if(form.nickname.value.length == 0) {
-    	  alret('닉네임을 입력해주세요.');
-    	  form.nickname.focus();
-    	  
-    	  return;
-    	}
-    	
-		form.email.value = form.email.value.trim();
-    	
-    	if(form.email.value.length == 0) {
-    	  alret('이메일을 입력해주세요.');
-    	  form.email.focus();
-    	  
-    	  return;
-    	}
-    	
-		form.cellphoneNo.value = form.cellphoneNo.value.trim();
-    	
-    	if(form.cellphoneNo.value.length == 0) {
-    	  alret('연락처를 입력해주세요.');
-    	  form.cellphoneNo.focus();
-    	  
-    	  return;
-    	}
-    	
-    	submitJoinFormDone = true;
-    	form.submit();
-      }
-    </script>
-    <form class="table-box-type-1" method="POST" action="../member/doJoin" onsubmit="submitJoinForm(this); return false;">
-    <input type="hidden" name="afterLoginUri" value="${param.afterLoginUri}" />
+    <form class="table-box-type-1" method="POST" action="../member/doJoin"
+      onsubmit="submitJoinForm(this); return false;">
+      <input type="hidden" name="afterLoginUri" value="${param.afterLoginUri}" />
       <table>
-        <colgroup> 
+        <colgroup>
           <col width="200" />
         </colgroup>
         <tbody>
           <tr>
-            <th>로그인 아이디</th>
+            <th>로그인아이디</th>
             <td>
-              <input name="loginId" class="w-96 input input-bordered" type="text" placeholder="로그인 아이디" />
+              <input name="loginId" class="w-96 input input-bordered" type="text" placeholder="로그인아이디"
+                onkeyup="checkLoginIdDup(this);" autocomplete="off" />
+              <div class="loginId-message"></div>
             </td>
           </tr>
           <tr>
-            <th>로그인 비밀번호</th>
+            <th>로그인비밀번호</th>
             <td>
-              <input name="loginPw" class="w-96 input input-bordered" type="password" placeholder="로그인 비밀번호" />
+              <input name="loginPw" class="w-96 input input-bordered" type="password" placeholder="로그인비밀번호" />
             </td>
           </tr>
           <tr>
-            <th>로그인 비밀번호 확인</th>
+            <th>로그인비밀번호 확인</th>
             <td>
-              <input name="loginPwConfirm" class="w-96 input input-bordered" type="password" placeholder="로그인 비밀번호 확인" />
+              <input name="loginPwConfirm" class="w-96 input input-bordered" type="password" placeholder="로그인비밀번호 확인" />
             </td>
           </tr>
           <tr>
@@ -132,17 +167,16 @@
             </td>
           </tr>
           <tr>
-            <th>연락처</th>
+            <th>휴대전화번호</th>
             <td>
-              <input name="cellphoneNo" class="w-96 input input-bordered" type="text" placeholder="연락처" />
+              <input name="cellphoneNo" class="w-96 input input-bordered" type="text" placeholder="휴대전화번호" />
             </td>
           </tr>
           <tr>
             <th>회원가입</th>
             <td>
-              <button type="submit" class="btn btn-outline btn-secondary">회원가입</button>
-              <button type="button" class="btn btn-outline btn-accent" onclick="history.back();">뒤로가기</button>
-              
+              <button type="submit" class="btn btn-primary">회원가입</button>
+              <button type="button" class="btn btn-outline btn-secondary" onclick="history.back();">뒤로가기</button>
             </td>
           </tr>
         </tbody>

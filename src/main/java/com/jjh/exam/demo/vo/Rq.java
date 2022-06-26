@@ -100,9 +100,9 @@ public class Rq {
 		req.setAttribute("historyBack", true);
 		return "common/js";
 	}
-	
+
 	public String jshistoryBack(String resultCode, String msg) {
-		msg =  String.format("[%s] %s", resultCode, msg);
+		msg = String.format("[%s] %s", resultCode, msg);
 		return Ut.jshistoryBack(msg);
 	}
 
